@@ -226,7 +226,7 @@ In same cases you may be dealing with an external data structure for which you k
 
 The latter is especially usefull if you can make use of a certain trait to calculate the heap size for multiple types.
 
-Note that unlike in other crates, the name of the function to be called is __not__ encapsulated by double-quotes ("), but rather given directly.
+Note that unlike in other crates, the name of the function to be called is **not** encapsulated by double-quotes ("), but rather given directly.
 
 ```rust
 use get_size::GetSize;
