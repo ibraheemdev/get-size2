@@ -17,7 +17,7 @@ workspace = true
 get-size-derive2 = { workspace = true, optional = true }
 
 [dev-dependencies]
-get-size = { path = ".", features = ["derive"] }
+get-size2 = { path = ".", features = ["derive"] }
 
 [features]
 default = []

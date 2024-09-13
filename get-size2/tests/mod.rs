@@ -1,4 +1,4 @@
-use get_size::*;
+use get_size2::*;
 
 #[derive(GetSize)]
 pub struct TestStruct {

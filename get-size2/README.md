@@ -15,7 +15,7 @@ The [`GetSize`] trait can be used to determine the size of an object inside the 
 We use [`GetSize`] to determine number of bytes occupied by both a `String` and a `Vec` of bytes. Note that the `Vec` has already allocated a capacity of `1024` bytes, and does thus correctly show a heap size of `1024`, even if only `1` byte is currently in use.
 
 ```rust
-use get_size::GetSize;
+use get_size2::GetSize;
 
 fn main() {
   let value = String::from("Hello World!");
@@ -49,7 +49,7 @@ Unless you have a complex datastructure which requires a manual implementation, 
 You will need to activate the `derive` feature first, which is disabled by default. Add the following to your `cargo.toml`:
 
 ```toml
-get-size = { version = "^0.1", features = ["derive"] }
+get-size2 = { version = "^0.1", features = ["derive"] }
 ```
 
 Note that the derive macro _does not support unions_. You have to manually implement it for them.

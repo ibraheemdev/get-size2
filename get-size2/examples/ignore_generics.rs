@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-use get_size::GetSize;
+use get_size2::GetSize;
 
 #[derive(GetSize)]
 #[get_size(ignore(B, C, D))]

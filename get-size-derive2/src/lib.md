@@ -9,7 +9,7 @@ Note that the derive macro _does not support unions_. You have to manually imple
 Deriving [`GetSize`] for a struct:
 
 ```rust
-use get_size::GetSize;
+use get_size2::GetSize;
 
 #[derive(GetSize)]
 pub struct OwnStruct {
@@ -30,7 +30,7 @@ fn main() {
 Deriving [`GetSize`] for an enum:
 
 ```rust
-use get_size::GetSize;
+use get_size2::GetSize;
 
 #[derive(GetSize)]
 pub enum TestEnum {
@@ -68,7 +68,7 @@ fn main() {
 The derive macro does also work with generics. The generated trait implementation will by default require all generic types to implement [`GetSize`] themselves, but this [can be changed](#ignoring-certain-generic-types).
 
 ```rust
-use get_size::GetSize;
+use get_size2::GetSize;
 
 #[derive(GetSize)]
 struct TestStructGenerics<A, B> {
@@ -117,7 +117,7 @@ The idiomatic use case for this helper is if you use shared ownership and do not
 
 ```rust
 use std::sync::Arc;
-use get_size::GetSize;
+use get_size2::GetSize;
 
 #[derive(GetSize)]
 struct PrimaryStore {
@@ -158,7 +158,7 @@ But you may also use this as a band aid, if a certain struct fields type does no
 Be aware though that this will result in an implementation which will return incorrect results, unless the heap size of that type is indeed always zero and can thus be ignored. It is therefor advisable to use one of the next two helper options instead.
 
 ```rust
-use get_size::GetSize;
+use get_size2::GetSize;
 
 // Does not implement GetSize!
 struct TestStructNoGetSize {
@@ -193,7 +193,7 @@ fn main() {
 In same cases you may be dealing with external types which allocate a fixed amount of bytes at the heap. In this case you may use the `size` attribute to always account the given field with a fixed value.
 
 ```rust
-use get_size::GetSize;
+use get_size2::GetSize;
 #
 # struct Buffer1024 {}
 #
@@ -229,7 +229,7 @@ The latter is especially usefull if you can make use of a certain trait to calcu
 Note that unlike in other crates, the name of the function to be called is **not** encapsulated by double-quotes ("), but rather given directly.
 
 ```rust
-use get_size::GetSize;
+use get_size2::GetSize;
 #
 # type ExternalVecAlike<T> = Vec<T>;
 
@@ -266,7 +266,7 @@ fn main() {
 If your struct uses generics, but the fields at which they are stored are ignored or get handled by helpers because the generic does not implement [`GetSize`], you will have to mark these generics with a special struct level `ignore` attribute. Otherwise the derived [`GetSize`] implementation would still require these generics to implement [`GetSize`], even through there is no need for it.
 
 ```rust
-use get_size::GetSize;
+use get_size2::GetSize;
 
 #[derive(GetSize)]
 #[get_size(ignore(B, C, D))]

@@ -7,7 +7,7 @@ The [`GetSize`] trait can be used to determine the size of an object inside the 
 We use [`GetSize`] to determine number of bytes occupied by both a [`String`] and a [`Vec`] of bytes. Note that the [`Vec`] has already allocated a capacity of `1024` bytes, and does thus correctly show a heap size of `1024`, even if only `1` byte is currently in use.
 
 ```rust
-use get_size::GetSize;
+use get_size2::GetSize;
 
 fn main() {
   let value = String::from("Hello World!");
@@ -33,7 +33,7 @@ This library follows the idea that only bytes owned by a certain object should b
 #### Example
 
 ```rust
-use get_size::GetSize;
+use get_size2::GetSize;
 
 #[derive(GetSize)]
 struct Test<'a> {
@@ -72,7 +72,7 @@ On the other hand references implemented as shared ownership are treated as owne
 
 ```rust
 use std::sync::Arc;
-use get_size::GetSize;
+use get_size2::GetSize;
 
 fn main() {
   let value = String::from("hello");
@@ -95,7 +95,7 @@ Unless you have a complex data structure which requires a manual implementation,
 You will need to activate the `derive` feature first, which is disabled by default. Add the following to your `cargo.toml`:
 
 ```toml
-get-size = { version = "^0.1", features = ["derive"] }
+get-size2 = { version = "^0.1", features = ["derive"] }
 ```
 
 Note that the derive macro _does not support unions_. You have to manually implement it for them.
@@ -105,7 +105,7 @@ Note that the derive macro _does not support unions_. You have to manually imple
 Deriving [`GetSize`] for a struct:
 
 ```rust
-use get_size::GetSize;
+use get_size2::GetSize;
 
 #[derive(GetSize)]
 pub struct OwnStruct {
@@ -126,7 +126,7 @@ fn main() {
 Deriving [`GetSize`] for an enum:
 
 ```rust
-use get_size::GetSize;
+use get_size2::GetSize;
 
 #[derive(GetSize)]
 pub enum TestEnum {
@@ -164,7 +164,7 @@ fn main() {
 The derive macro does also work with generics. The generated trait implementation will by default require all generic types to implement [`GetSize`] themselves, but this [can be changed](#ignoring-certain-generic-types).
 
 ```rust
-use get_size::GetSize;
+use get_size2::GetSize;
 
 #[derive(GetSize)]
 struct TestStructGenerics<A, B> {
@@ -213,7 +213,7 @@ The idiomatic use case for this helper is if you use shared ownership and do not
 
 ```rust
 use std::sync::Arc;
-use get_size::GetSize;
+use get_size2::GetSize;
 
 #[derive(GetSize)]
 struct PrimaryStore {
@@ -254,7 +254,7 @@ But you may also use this as a band aid, if a certain struct fields type does no
 Be aware though that this will result in an implementation which will return incorrect results, unless the heap size of that type is indeed always zero and can thus be ignored. It is therefor advisable to use one of the next two helper options instead.
 
 ```rust
-use get_size::GetSize;
+use get_size2::GetSize;
 
 // Does not implement GetSize!
 struct TestStructNoGetSize {
@@ -289,7 +289,7 @@ fn main() {
 In same cases you may be dealing with external types which allocate a fixed amount of bytes at the heap. In this case you may use the `size` attribute to always account the given field with a fixed value.
 
 ```rust
-use get_size::GetSize;
+use get_size2::GetSize;
 #
 # struct Buffer1024 {}
 #
@@ -322,10 +322,10 @@ In same cases you may be dealing with an external data structure for which you k
 
 The latter is especially usefull if you can make use of a certain trait to calculate the heap size for multiple types.
 
-Note that unlike in other crates, the name of the function to be called is __not__ encapsulated by double-quotes ("), but rather given directly.
+Note that unlike in other crates, the name of the function to be called is **not** encapsulated by double-quotes ("), but rather given directly.
 
 ```rust
-use get_size::GetSize;
+use get_size2::GetSize;
 #
 # type ExternalVecAlike<T> = Vec<T>;
 
@@ -362,7 +362,7 @@ fn main() {
 If your struct uses generics, but the fields at which they are stored are ignored or get handled by helpers because the generic does not implement [`GetSize`], you will have to mark these generics with a special struct level `ignore` attribute. Otherwise the derived [`GetSize`] implementation would still require these generics to implement [`GetSize`], even through there is no need for it.
 
 ```rust
-use get_size::GetSize;
+use get_size2::GetSize;
 
 #[derive(GetSize)]
 #[get_size(ignore(B, C, D))]

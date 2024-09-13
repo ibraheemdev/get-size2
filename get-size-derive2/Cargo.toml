@@ -19,7 +19,7 @@ quote = "1"
 attribute-derive = "0.10.1"
 
 [dev-dependencies]
-get-size = { path = "../get-size2", features = ["derive"] }
+get-size2 = { path = "../get-size2", features = ["derive"] }
 
 [lints]
 workspace = true

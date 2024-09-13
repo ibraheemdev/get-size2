@@ -192,14 +192,14 @@ pub fn derive_get_size(input: TokenStream) -> TokenStream {
             let gen = quote! {
                 impl #impl_generics GetSize for #name #ty_generics #where_clause {
                     fn get_heap_size(&self) -> usize {
-                        let tracker = get_size::StandardTracker::default();
+                        let tracker = get_size2::StandardTracker::default();
 
                         let (total, _) = GetSize::get_heap_size_with_tracker(self, tracker);
 
                         total
                     }
 
-                    fn get_heap_size_with_tracker<TRACKER: get_size::GetSizeTracker>(
+                    fn get_heap_size_with_tracker<TRACKER: get_size2::GetSizeTracker>(
                         &self,
                         tracker: TRACKER,
                     ) -> (usize, TRACKER) {
@@ -270,14 +270,14 @@ pub fn derive_get_size(input: TokenStream) -> TokenStream {
             let gen = quote! {
                 impl #impl_generics GetSize for #name #ty_generics #where_clause {
                     fn get_heap_size(&self) -> usize {
-                        let tracker = get_size::StandardTracker::default();
+                        let tracker = get_size2::StandardTracker::default();
 
                         let (total, _) = GetSize::get_heap_size_with_tracker(self, tracker);
 
                         total
                     }
 
-                    fn get_heap_size_with_tracker<TRACKER: get_size::GetSizeTracker>(
+                    fn get_heap_size_with_tracker<TRACKER: get_size2::GetSizeTracker>(
                         &self,
                         tracker: TRACKER,
                     ) -> (usize, TRACKER) {

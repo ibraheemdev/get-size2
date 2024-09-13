@@ -1,4 +1,4 @@
-use get_size::GetSize;
+use get_size2::GetSize;
 
 type ExternalVecAlike<T> = Vec<T>;
 

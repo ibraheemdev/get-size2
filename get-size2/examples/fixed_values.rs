@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-use get_size::GetSize;
+use get_size2::GetSize;
 
 type Buffer1024 = Vec<u8>;
 
