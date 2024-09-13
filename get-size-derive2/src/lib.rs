@@ -3,7 +3,6 @@
 use attribute_derive::{Attribute, FromAttr};
 use proc_macro::TokenStream;
 use quote::quote;
-use syn;
 
 #[derive(FromAttr, Default, Debug)]
 #[attribute(ident = get_size)]
@@ -19,7 +18,7 @@ struct StructFieldAttribute {
 fn extract_ignored_generics_list(list: &Vec<syn::Attribute>) -> Vec<syn::PathSegment> {
     let mut collection = Vec::new();
 
-    for attr in list.iter() {
+    for attr in list {
         let mut list = extract_ignored_generics(attr);
 
         collection.append(&mut list);
@@ -67,7 +66,7 @@ fn add_trait_bounds(mut generics: syn::Generics, ignored: &Vec<syn::PathSegment>
     for param in &mut generics.params {
         if let syn::GenericParam::Type(type_param) = param {
             let mut found = false;
-            for ignored in ignored.iter() {
+            for ignored in ignored {
                 if ignored.ident == type_param.ident {
                     found = true;
                     break;
@@ -84,6 +83,7 @@ fn add_trait_bounds(mut generics: syn::Generics, ignored: &Vec<syn::PathSegment>
     generics
 }
 
+#[allow(clippy::too_many_lines, clippy::missing_panics_doc)] // TODO: Refactor this function.
 #[proc_macro_derive(GetSize, attributes(get_size))]
 pub fn derive_get_size(input: TokenStream) -> TokenStream {
     // Construct a representation of Rust code as a syntax tree
@@ -115,7 +115,7 @@ pub fn derive_get_size(input: TokenStream) -> TokenStream {
 
             let mut cmds = Vec::with_capacity(data_enum.variants.len());
 
-            for variant in data_enum.variants.iter() {
+            for variant in data_enum.variants {
                 let ident = &variant.ident;
 
                 match &variant.fields {
@@ -139,7 +139,7 @@ pub fn derive_get_size(input: TokenStream) -> TokenStream {
                             field_cmds.push(quote! {
                                 let (total_add, tracker) = GetSize::get_heap_size_with_tracker(#field_ident, tracker);
                                 total += total_add;
-                            })
+                            });
                         }
 
                         cmds.push(quote! {
@@ -159,7 +159,7 @@ pub fn derive_get_size(input: TokenStream) -> TokenStream {
 
                         let mut field_cmds = Vec::with_capacity(num_fields);
 
-                        for field in named_fields.named.iter() {
+                        for field in &named_fields.named {
                             let field_ident = field.ident.as_ref().unwrap();
 
                             field_idents.push(field_ident);
@@ -167,7 +167,7 @@ pub fn derive_get_size(input: TokenStream) -> TokenStream {
                             field_cmds.push(quote! {
                                 let (total_add, tracker) = GetSize::get_heap_size_with_tracker(#field_ident, tracker);
                                 total += total_add;
-                            })
+                            });
                         }
 
                         cmds.push(quote! {
@@ -209,7 +209,7 @@ pub fn derive_get_size(input: TokenStream) -> TokenStream {
                     }
                 }
             };
-            return gen.into();
+            gen.into()
         }
         syn::Data::Union(_data_union) => {
             panic!("Deriving GetSize for unions is currently not supported.")
@@ -227,7 +227,7 @@ pub fn derive_get_size(input: TokenStream) -> TokenStream {
 
             let mut unidentified_fields_count = 0; // For newtypes
 
-            for field in data_struct.fields.iter() {
+            for field in &data_struct.fields {
                 // Parse all relevant attributes.
                 let attr = StructFieldAttribute::from_attributes(&field.attrs).unwrap();
 
@@ -289,7 +289,7 @@ pub fn derive_get_size(input: TokenStream) -> TokenStream {
                     }
                 }
             };
-            return gen.into();
+            gen.into()
         }
     }
 }

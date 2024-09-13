@@ -1,25 +1,30 @@
-[package]
-name = "get-size"
-description = "Determine the size in bytes an object occupies inside RAM."
-version = "0.1.4"
+[workspace]
+resolver = "2"
+members = ["get-size2", "get-size-derive2"]
+
+[workspace.package]
 edition = "2021"
-authors = ["Denis Kerp"]
-readme = "README.md"
-repository = "https://github.com/DKerp/get-size"
-license = "MIT"
-keywords = ["size", "heap", "ram", "cache", "memory"]
-categories = ["memory-management", "caching"]
+license = "MIT OR Apache-2.0"
+version = "0.1.0-beta.1"
 
-[dependencies]
-get-size-derive = { path = "get-size-derive", optional = true }
+[workspace.dependencies]
+get-size-derive2 = { version = "0.1.0-beta.1", path = "get-size-derive2" }
 
-[dev-dependencies]
-get-size = { path = ".", features = ["derive"] }
+[workspace.lints.rust]
+unsafe_code = "forbid"
 
-[features]
-default = []
-derive = ["get-size-derive"]
-
-[package.metadata.docs.rs]
-all-features = true
-rustdoc-args = ["--cfg", "docsrs"]
+[workspace.lints.clippy]
+pedantic = { level = "deny", priority = 1 }
+enum_glob_use = { level = "deny", priority = 2 }
+module_name_repetitions = { level = "allow", priority = 3 }
+cast_precision_loss = { level = "allow", priority = 4 }
+cast_possible_truncation = { level = "allow", priority = 5 }
+cast_sign_loss = { level = "allow", priority = 6 }
+out_of_bounds_indexing = { level = "allow", priority = 7 }
+perf = { level = "warn", priority = 8 }
+style = { level = "warn", priority = 9 }
+# TODO: Uncomment/Deny the following lines when the clippy lints are fixed
+#unwrap_used = { level = "deny", priority = 10 }
+#expect_used = { level = "deny", priority = 11 }
+needless_doctest_main = { level = "allow", priority = 12 }
+implicit_hasher = { level = "allow", priority = 13 }
