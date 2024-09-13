@@ -1,13 +1,13 @@
 [package]
-name = "get-size"
+name = "get-size2"
 description = "Determine the size in bytes an object occupies inside RAM."
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-authors = ["Denis Kerp"]
+authors = ["Denis Kerp", "Nicolas"]
 readme = "README.md"
-repository = "https://github.com/DKerp/get-size"
-keywords = ["size", "heap", "ram", "cache", "memory"]
+repository = "https://github.com/bircni/get-size2/get-size2"
+keywords = ["size", "heap", "ram", "memory", "get-size"]
 categories = ["memory-management", "caching"]
 
 [lints]

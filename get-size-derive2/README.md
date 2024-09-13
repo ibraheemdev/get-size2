@@ -1,8 +1,8 @@
 # get-size-derive
 
-[![Crates.io](https://img.shields.io/crates/v/get-size-derive)](https://crates.io/crates/get-size-derive)
-[![docs.rs](https://img.shields.io/docsrs/get-size-derive)](https://docs.rs/get-size-derive)
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/DKerp/get-size/blob/main/get-size-derive/LICENSE)
+[![Crates.io](https://img.shields.io/crates/v/get-size-derive2)](https://crates.io/crates/get-size-derive2)
+[![docs.rs](https://img.shields.io/docsrs/get-size-derive2)](https://docs.rs/get-size-derive2)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bircni/get-size2/blob/main/get-size-derive2/LICENSE)
 
 Derives [`GetSize`] for structs and enums.
 
@@ -224,7 +224,7 @@ In same cases you may be dealing with an external data structure for which you k
 
 The latter is especially usefull if you can make use of a certain trait to calculate the heap size for multiple types.
 
-Note that unlike in other crates, the name of the function to be called is __not__ encapsulated by double-quotes ("), but rather given directly.
+Note that unlike in other crates, the name of the function to be called is **not** encapsulated by double-quotes ("), but rather given directly.
 
 ```rust
 use get_size::GetSize;

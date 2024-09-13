@@ -7,7 +7,7 @@ license.workspace = true
 authors = ["Denis Kerp", "Nicolas"]
 readme = "README.md"
 repository = "https://github.com/bircni/get-size2/tree/main/get-size-derive2"
-keywords = ["size", "heap", "ram", "cache", "memory", "get-size"]
+keywords = ["size", "heap", "ram", "memory", "get-size"]
 categories = ["memory-management", "caching"]
 
 [lib]
