@@ -6,7 +6,7 @@ edition.workspace = true
 license.workspace = true
 authors = ["Denis Kerp", "Nicolas"]
 readme = "README.md"
-repository = "https://github.com/bircni/get-size2/get-size2"
+repository = "https://github.com/bircni/get-size2/tree/main/get-size2"
 keywords = ["size", "heap", "ram", "memory", "get-size"]
 categories = ["memory-management", "caching"]
 
