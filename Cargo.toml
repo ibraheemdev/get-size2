@@ -5,10 +5,10 @@ members = ["get-size2", "get-size-derive2"]
 [workspace.package]
 edition = "2021"
 license = "MIT OR Apache-2.0"
-version = "0.1.1"
+version = "0.1.2"
 
 [workspace.dependencies]
-get-size-derive2 = { version = "0.1.1", path = "get-size-derive2" }
+get-size-derive2 = { version = "0.1.2", path = "get-size-derive2" }
 
 [workspace.lints.rust]
 unsafe_code = "forbid"
