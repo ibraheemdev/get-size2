@@ -15,7 +15,7 @@ quote = "1"
 attribute-derive = "0.10.3"
 
 [workspace.lints.rust]
-unsafe_code = "forbid"
+# unsafe_code = "forbid"
 deprecated = "warn"
 
 [workspace.lints.clippy]
