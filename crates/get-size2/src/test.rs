@@ -1,4 +1,4 @@
-#![expect(dead_code, reason = "This is a test module")]
+#![expect(dead_code, clippy::unwrap_used, reason = "This is a test module")]
 
 use get_size2::*;
 
