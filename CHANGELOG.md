@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [0.3.0](https://github.com/bircni/get-size2/compare/0.2.0..0.3.0) - 2025-04-18
+
+### Features
+
+- add release scripts - ([8b85a7f](https://github.com/bircni/get-size2/commit/8b85a7fde760f4455a4fabe4e8eed6935d0ee179)) - Nicolas
+- Optionally implement GetSize for bytes::Bytes (#12) - ([44b5c60](https://github.com/bircni/get-size2/commit/44b5c609f1dc6c0e677faf08ee71ba6bd3a7e484)) - Joe Roback
+
 ## [0.1.4](https://github.com/bircni/get-size2/compare/0.1.3..0.1.4) - 2025-03-18
 
 ### Features
