@@ -21,9 +21,10 @@ bytes = { version = "1", default-features = false, optional = true }
 chrono = { version = "0.4", default-features = false, optional = true }
 chrono-tz = { version = "0.10", default-features = false, optional = true }
 url = { version = "2", default-features = false, optional = true }
+hashbrown = { version = "0.15", default-features = false, optional = true }
 
 [dev-dependencies]
-get-size2 = { path = ".", features = ["bytes", "derive", "chrono", "chrono-tz", "url"] }
+get-size2 = { path = ".", features = ["bytes", "derive", "chrono", "chrono-tz", "url", "hashbrown"] }
 
 [features]
 default = []
@@ -32,6 +33,7 @@ derive = ["get-size-derive2"]
 chrono = ["dep:chrono"]
 chrono-tz = ["dep:chrono-tz"]
 url = ["dep:url"]
+hashbrown = ["dep:hashbrown"]
 
 [package.metadata.docs.rs]
 all-features = true
