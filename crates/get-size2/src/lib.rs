@@ -15,7 +15,7 @@ use std::sync::atomic::{
     AtomicBool, AtomicI8, AtomicI16, AtomicI32, AtomicI64, AtomicIsize, AtomicU8, AtomicU16,
     AtomicU32, AtomicU64, AtomicUsize, Ordering,
 };
-use std::sync::{Arc, Mutex, RwLock, Weak as ArcWeak};
+use std::sync::{Arc, Mutex, OnceLock, RwLock, Weak as ArcWeak};
 use std::time::{Duration, Instant, SystemTime};
 
 #[cfg(feature = "derive")]
@@ -458,7 +458,7 @@ where
     T: GetSize,
 {
     fn get_heap_size(&self) -> usize {
-        // We assume that a Mutex does hold its data at the stack.
+        // We assume that a `Mutex` holds its data at the stack.
         GetSize::get_heap_size(&*(self.lock().expect("Mutex is poisoned")))
     }
 }
@@ -468,8 +468,21 @@ where
     T: GetSize,
 {
     fn get_heap_size(&self) -> usize {
-        // We assume that a RwLock does hold its data at the stack.
+        // We assume that a `RwLock` holds its data at the stack.
         GetSize::get_heap_size(&*(self.read().expect("RwLock is poisoned")))
+    }
+}
+
+impl<T> GetSize for OnceLock<T>
+where
+    T: GetSize,
+{
+    fn get_heap_size(&self) -> usize {
+        // We assume that a `OnceLock` holds its data at the stack.
+        match self.get() {
+            None => 0,
+            Some(value) => GetSize::get_heap_size(&*value),
+        }
     }
 }
 
