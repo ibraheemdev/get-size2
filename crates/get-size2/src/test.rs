@@ -1,5 +1,7 @@
 #![expect(dead_code, clippy::unwrap_used, reason = "This is a test module")]
 
+use std::mem::size_of;
+
 use get_size2::*;
 
 #[derive(GetSize)]
@@ -302,4 +304,32 @@ fn bytes() {
     assert_eq!(bytes_mut.get_heap_size(), BYTES_STR.len());
     bytes_mut.truncate(0);
     assert_eq!(bytes_mut.get_heap_size(), 0);
+}
+
+#[test]
+fn hashbrown() {
+    use std::hash::{BuildHasher, RandomState};
+
+    const VALUE_STR: &str = "A very looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooonng string.";
+
+    let hasher = RandomState::new();
+
+    let mut map = hashbrown::HashTable::new();
+    assert_eq!(map.get_heap_size(), 0);
+    map.insert_unique(
+        hasher.hash_one(&VALUE_STR),
+        String::from(VALUE_STR),
+        |value| hasher.hash_one(&value),
+    );
+    assert!(map.get_heap_size() >= size_of::<String>() + VALUE_STR.len());
+
+    let mut map = hashbrown::HashMap::<i32, String, RandomState>::default();
+    assert_eq!(map.get_heap_size(), 0);
+    map.insert(0, String::from(VALUE_STR));
+    assert!(map.get_heap_size() >= size_of::<(i32, String)>() + VALUE_STR.len());
+
+    let mut set = hashbrown::HashSet::<String, RandomState>::default();
+    assert_eq!(set.get_heap_size(), 0);
+    set.insert(String::from(VALUE_STR));
+    assert!(set.get_heap_size() >= size_of::<String>() + VALUE_STR.len());
 }

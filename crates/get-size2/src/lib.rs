@@ -601,3 +601,40 @@ impl GetSize for bytes::BytesMut {
         self.len()
     }
 }
+
+#[cfg(feature = "hashbrown")]
+impl<K, V, H> GetSize for hashbrown::HashMap<K, V, H>
+where
+    K: GetSize + Eq + std::hash::Hash,
+    V: GetSize,
+    H: std::hash::BuildHasher,
+{
+    fn get_heap_size(&self) -> usize {
+        self.allocation_size()
+            + self
+                .iter()
+                .map(|(k, v)| k.get_heap_size() + v.get_heap_size())
+                .sum::<usize>()
+    }
+}
+
+#[cfg(feature = "hashbrown")]
+impl<T, H> GetSize for hashbrown::HashSet<T, H>
+where
+    T: GetSize + Eq + std::hash::Hash,
+    H: std::hash::BuildHasher,
+{
+    fn get_heap_size(&self) -> usize {
+        self.allocation_size() + self.iter().map(GetSize::get_heap_size).sum::<usize>()
+    }
+}
+
+#[cfg(feature = "hashbrown")]
+impl<T> GetSize for hashbrown::HashTable<T>
+where
+    T: GetSize,
+{
+    fn get_heap_size(&self) -> usize {
+        self.allocation_size() + self.iter().map(GetSize::get_heap_size).sum::<usize>()
+    }
+}
