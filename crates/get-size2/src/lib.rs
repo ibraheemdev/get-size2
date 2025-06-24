@@ -568,6 +568,24 @@ where
     }
 }
 
+impl GetSize for Box<str> {
+    fn get_heap_size(&self) -> usize {
+        self.len()
+    }
+}
+
+impl GetSize for Rc<str> {
+    fn get_heap_size(&self) -> usize {
+        self.len()
+    }
+}
+
+impl GetSize for Arc<str> {
+    fn get_heap_size(&self) -> usize {
+        self.len()
+    }
+}
+
 #[cfg(feature = "chrono")]
 mod chrono {
     use crate::GetSize;

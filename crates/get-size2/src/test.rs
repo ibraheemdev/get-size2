@@ -1,6 +1,9 @@
 #![expect(dead_code, clippy::unwrap_used, reason = "This is a test module")]
 
-use std::{mem::size_of, sync::OnceLock};
+use std::mem::size_of;
+use std::rc::Rc;
+use std::sync::Arc;
+use std::sync::OnceLock;
 
 use get_size2::*;
 
@@ -257,6 +260,18 @@ fn boxed_slice() {
 
     let boxed = vec![&1u8; 10].into_boxed_slice();
     assert_eq!(boxed.get_heap_size(), size_of::<&u8>() * boxed.len());
+}
+
+#[test]
+fn boxed_str() {
+    let boxed: Box<str> = "a".repeat(1).into();
+    assert_eq!(boxed.get_heap_size(), size_of::<u8>() * boxed.len());
+
+    let rc: Rc<str> = "a".repeat(1).into();
+    assert_eq!(rc.get_heap_size(), size_of::<u8>() * boxed.len());
+
+    let arc: Arc<str> = "a".repeat(1).into();
+    assert_eq!(arc.get_heap_size(), size_of::<u8>() * boxed.len());
 }
 
 #[test]
