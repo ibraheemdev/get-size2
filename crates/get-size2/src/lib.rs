@@ -601,3 +601,17 @@ impl GetSize for bytes::BytesMut {
         self.len()
     }
 }
+
+#[cfg(feature = "smallvec")]
+impl<A: smallvec::Array> GetSize for smallvec::SmallVec<A>
+where
+    A::Item: GetSize,
+{
+    fn get_heap_size(&self) -> usize {
+        if self.len() <= self.inline_size() {
+            return self.iter().map(GetSize::get_heap_size).sum();
+        }
+
+        self.iter().map(GetSize::get_size).sum()
+    }
+}
