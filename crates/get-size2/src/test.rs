@@ -333,3 +333,17 @@ fn hashbrown() {
     set.insert(String::from(VALUE_STR));
     assert!(set.get_heap_size() >= size_of::<String>() + VALUE_STR.len());
 }
+
+#[test]
+fn smallvec() {
+    const ITEM_STR: &str = "Hello world";
+    let mut vec = smallvec::SmallVec::<[String; 2]>::from([String::new(), String::from(ITEM_STR)]);
+
+    assert_eq!(vec.get_heap_size(), ITEM_STR.len());
+    vec.push(String::new());
+
+    assert_eq!(
+        vec.get_heap_size(),
+        ITEM_STR.len() + std::mem::size_of::<String>() * 3
+    );
+}

@@ -70,6 +70,3 @@ todo = "warn"
 unimplemented = "warn"
 unwrap_used = "warn"
 wildcard_enum_match_arm = "warn"
-
-
-
