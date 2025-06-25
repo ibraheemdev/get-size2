@@ -481,7 +481,7 @@ where
         // We assume that a `OnceLock` holds its data at the stack.
         match self.get() {
             None => 0,
-            Some(value) => GetSize::get_heap_size(&*value),
+            Some(value) => GetSize::get_heap_size(value),
         }
     }
 }
