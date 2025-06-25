@@ -303,3 +303,17 @@ fn bytes() {
     bytes_mut.truncate(0);
     assert_eq!(bytes_mut.get_heap_size(), 0);
 }
+
+#[test]
+fn smallvec() {
+    const ITEM_STR: &str = "Hello world";
+    let mut vec = smallvec::SmallVec::<[String; 2]>::from([String::new(), String::from(ITEM_STR)]);
+
+    assert_eq!(vec.get_heap_size(), ITEM_STR.len());
+    vec.push(String::new());
+
+    assert_eq!(
+        vec.get_heap_size(),
+        ITEM_STR.len() + std::mem::size_of::<String>() * 3
+    );
+}
