@@ -31,10 +31,10 @@ get-size2 = { path = ".", features = [
     "derive",
     "chrono",
     "chrono-tz",
+    "compact-str",
     "hashbrown",
     "smallvec",
     "url",
-    "compact-str",
 ] }
 
 [features]
