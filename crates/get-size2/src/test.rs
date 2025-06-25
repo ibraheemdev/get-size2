@@ -307,6 +307,18 @@ fn bytes() {
 }
 
 #[test]
+fn compact_str() {
+    const STR: &str = "Hello world";
+    const LONG_STR: &str = "A much looooonger string.";
+
+    let value = compact_str::CompactString::from(STR);
+    assert_eq!(value.get_heap_size(), 0);
+
+    let value = compact_str::CompactString::from(LONG_STR);
+    assert_eq!(value.get_heap_size(), LONG_STR.len());
+}
+
+#[test]
 fn hashbrown() {
     use std::hash::{BuildHasher, RandomState};
 

@@ -23,6 +23,7 @@ chrono-tz = { version = "0.10", default-features = false, optional = true }
 hashbrown = { version = "0.15", default-features = false, optional = true }
 smallvec = { version = "1", default-features = false, optional = true }
 url = { version = "2", default-features = false, optional = true }
+compact_str = { version = "0.9", default-features = false, optional = true }
 
 [dev-dependencies]
 get-size2 = { path = ".", features = [
@@ -30,6 +31,7 @@ get-size2 = { path = ".", features = [
     "derive",
     "chrono",
     "chrono-tz",
+    "compact-str",
     "hashbrown",
     "smallvec",
     "url",
@@ -41,9 +43,10 @@ bytes = ["dep:bytes"]
 derive = ["get-size-derive2"]
 chrono = ["dep:chrono"]
 chrono-tz = ["dep:chrono-tz"]
+compact-str = ["dep:compact_str"]
 hashbrown = ["dep:hashbrown"]
-url = ["dep:url"]
 smallvec = ["dep:smallvec"]
+url = ["dep:url"]
 
 [package.metadata.docs.rs]
 all-features = true
