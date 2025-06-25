@@ -1,5 +1,7 @@
 #![expect(dead_code, clippy::unwrap_used, reason = "This is a test module")]
 
+use std::sync::OnceLock;
+
 use get_size2::*;
 
 #[derive(GetSize)]
@@ -302,4 +304,23 @@ fn bytes() {
     assert_eq!(bytes_mut.get_heap_size(), BYTES_STR.len());
     bytes_mut.truncate(0);
     assert_eq!(bytes_mut.get_heap_size(), 0);
+}
+
+#[test]
+fn once_lock_get_size() {
+    // empty OnceLock
+    let lock: OnceLock<String> = OnceLock::new();
+    assert_eq!(lock.get_heap_size(), 0);
+
+    // filled OnceLock
+    let lock_filled: OnceLock<String> = {
+        let l = OnceLock::new();
+        l.set(String::from("HalloTest")).unwrap();
+        l
+    };
+    // The heap size of a OnceLock filled with a String is the size of the String's heap allocation.
+    assert_eq!(
+        lock_filled.get_heap_size(),
+        lock_filled.get().unwrap().capacity()
+    );
 }
