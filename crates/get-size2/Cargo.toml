@@ -24,7 +24,7 @@ url = { version = "2", default-features = false, optional = true }
 hashbrown = { version = "0.15", default-features = false, optional = true }
 
 [dev-dependencies]
-get-size2 = { path = ".", features = ["bytes", "derive", "chrono", "chrono-tz", "url", "hashbrown"] }
+get-size2 = { path = ".", features = ["bytes", "derive", "chrono", "chrono-tz", "hashbrown", "url"] }
 
 [features]
 default = []
