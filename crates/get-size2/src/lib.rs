@@ -636,6 +636,8 @@ where
 {
     fn get_heap_size(&self) -> usize {
         self.allocation_size() + self.iter().map(GetSize::get_heap_size).sum::<usize>()
+    }
+}
 
 #[cfg(feature = "smallvec")]
 impl<A: smallvec::Array> GetSize for smallvec::SmallVec<A>

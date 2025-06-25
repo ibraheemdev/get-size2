@@ -332,6 +332,7 @@ fn hashbrown() {
     assert_eq!(set.get_heap_size(), 0);
     set.insert(String::from(VALUE_STR));
     assert!(set.get_heap_size() >= size_of::<String>() + VALUE_STR.len());
+}
 
 #[test]
 fn smallvec() {

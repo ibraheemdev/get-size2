@@ -21,10 +21,19 @@ bytes = { version = "1", default-features = false, optional = true }
 chrono = { version = "0.4", default-features = false, optional = true }
 chrono-tz = { version = "0.10", default-features = false, optional = true }
 hashbrown = { version = "0.15", default-features = false, optional = true }
+smallvec = { version = "1", default-features = false, optional = true }
 url = { version = "2", default-features = false, optional = true }
 
 [dev-dependencies]
-get-size2 = { path = ".", features = ["bytes", "derive", "chrono", "chrono-tz", "hashbrown", "smallvec", "url"] }
+get-size2 = { path = ".", features = [
+    "bytes",
+    "derive",
+    "chrono",
+    "chrono-tz",
+    "hashbrown",
+    "smallvec",
+    "url",
+] }
 
 [features]
 default = []
