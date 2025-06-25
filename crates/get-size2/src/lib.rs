@@ -27,6 +27,11 @@ pub use tracker::*;
 #[cfg(test)]
 mod test;
 
+/// Determines how many bytes the object occupies inside the heap.
+pub fn heap_size<T: GetSize>(value: &T) -> usize {
+    value.get_heap_size()
+}
+
 /// Determine the size in bytes an object occupies inside RAM.
 pub trait GetSize: Sized {
     /// Determines how may bytes this object occupies inside the stack.
