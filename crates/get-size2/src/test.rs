@@ -1,6 +1,6 @@
 #![expect(dead_code, clippy::unwrap_used, reason = "This is a test module")]
 
-use std::sync::OnceLock;
+use std::{mem::size_of, sync::OnceLock};
 
 use get_size2::*;
 
@@ -306,7 +306,6 @@ fn bytes() {
     assert_eq!(bytes_mut.get_heap_size(), 0);
 }
 
-#[test]
 fn once_lock_get_size() {
     // empty OnceLock
     let lock: OnceLock<String> = OnceLock::new();
@@ -322,5 +321,58 @@ fn once_lock_get_size() {
     assert_eq!(
         lock_filled.get_heap_size(),
         lock_filled.get().unwrap().capacity()
+      );
+}
+
+fn compact_str() {
+    const STR: &str = "Hello world";
+    const LONG_STR: &str = "A much looooonger string.";
+
+    let value = compact_str::CompactString::from(STR);
+    assert_eq!(value.get_heap_size(), 0);
+
+    let value = compact_str::CompactString::from(LONG_STR);
+    assert_eq!(value.get_heap_size(), LONG_STR.len());
+}
+
+#[test]
+fn hashbrown() {
+    use std::hash::{BuildHasher, RandomState};
+
+    const VALUE_STR: &str = "A very looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooonng string.";
+
+    let hasher = RandomState::new();
+
+    let mut map = hashbrown::HashTable::new();
+    assert_eq!(map.get_heap_size(), 0);
+    map.insert_unique(
+        hasher.hash_one(&VALUE_STR),
+        String::from(VALUE_STR),
+        |value| hasher.hash_one(&value),
+    );
+    assert!(map.get_heap_size() >= size_of::<String>() + VALUE_STR.len());
+
+    let mut map = hashbrown::HashMap::<i32, String, RandomState>::default();
+    assert_eq!(map.get_heap_size(), 0);
+    map.insert(0, String::from(VALUE_STR));
+    assert!(map.get_heap_size() >= size_of::<(i32, String)>() + VALUE_STR.len());
+
+    let mut set = hashbrown::HashSet::<String, RandomState>::default();
+    assert_eq!(set.get_heap_size(), 0);
+    set.insert(String::from(VALUE_STR));
+    assert!(set.get_heap_size() >= size_of::<String>() + VALUE_STR.len());
+}
+
+#[test]
+fn smallvec() {
+    const ITEM_STR: &str = "Hello world";
+    let mut vec = smallvec::SmallVec::<[String; 2]>::from([String::new(), String::from(ITEM_STR)]);
+
+    assert_eq!(vec.get_heap_size(), ITEM_STR.len());
+    vec.push(String::new());
+
+    assert_eq!(
+        vec.get_heap_size(),
+        ITEM_STR.len() + std::mem::size_of::<String>() * 3
     );
 }

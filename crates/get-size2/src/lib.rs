@@ -248,12 +248,10 @@ where
     fn get_heap_size(&self) -> usize {
         let mut total = 0;
         for (k, v) in self {
-            total += GetSize::get_size(k);
-            total += GetSize::get_size(v);
+            total += GetSize::get_heap_size(k);
+            total += GetSize::get_heap_size(v);
         }
-        let additional: usize = self.capacity() - self.len();
-        total += additional * K::get_stack_size();
-        total += additional * V::get_stack_size();
+        total += self.capacity() * <(K, V)>::get_stack_size();
         total
     }
 }
@@ -612,5 +610,67 @@ impl GetSize for bytes::Bytes {
 impl GetSize for bytes::BytesMut {
     fn get_heap_size(&self) -> usize {
         self.len()
+    }
+}
+
+#[cfg(feature = "hashbrown")]
+impl<K, V, H> GetSize for hashbrown::HashMap<K, V, H>
+where
+    K: GetSize + Eq + std::hash::Hash,
+    V: GetSize,
+    H: std::hash::BuildHasher,
+{
+    fn get_heap_size(&self) -> usize {
+        self.allocation_size()
+            + self
+                .iter()
+                .map(|(k, v)| k.get_heap_size() + v.get_heap_size())
+                .sum::<usize>()
+    }
+}
+
+#[cfg(feature = "hashbrown")]
+impl<T, H> GetSize for hashbrown::HashSet<T, H>
+where
+    T: GetSize + Eq + std::hash::Hash,
+    H: std::hash::BuildHasher,
+{
+    fn get_heap_size(&self) -> usize {
+        self.allocation_size() + self.iter().map(GetSize::get_heap_size).sum::<usize>()
+    }
+}
+
+#[cfg(feature = "hashbrown")]
+impl<T> GetSize for hashbrown::HashTable<T>
+where
+    T: GetSize,
+{
+    fn get_heap_size(&self) -> usize {
+        self.allocation_size() + self.iter().map(GetSize::get_heap_size).sum::<usize>()
+    }
+}
+
+#[cfg(feature = "smallvec")]
+impl<A: smallvec::Array> GetSize for smallvec::SmallVec<A>
+where
+    A::Item: GetSize,
+{
+    fn get_heap_size(&self) -> usize {
+        if self.len() <= self.inline_size() {
+            return self.iter().map(GetSize::get_heap_size).sum();
+        }
+
+        self.iter().map(GetSize::get_size).sum()
+    }
+}
+
+#[cfg(feature = "compact-str")]
+impl GetSize for compact_str::CompactString {
+    fn get_heap_size(&self) -> usize {
+        if self.is_heap_allocated() {
+            self.len()
+        } else {
+            0
+        }
     }
 }
