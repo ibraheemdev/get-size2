@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [0.5.1](https://github.com/bircni/get-size2/compare/0.5.0..0.5.1) - 2025-06-25
+
+### Bug Fixes
+
+- correctly determine size for enums (#24) - ([3c5bd18](https://github.com/bircni/get-size2/commit/3c5bd18cac7d521a7292db65f400d666739b6008)) - Nicolas
+
+### Miscellaneous Chores
+
+- add top-level `heap_size` function (#25) - ([f3b5e6e](https://github.com/bircni/get-size2/commit/f3b5e6e38cc3bc57980a6110868e02f1de4a7982)) - Ibraheem Ahmed
+
+### Build
+
+- update to newer cargo-verset to set dependency version automatically - ([b1154e4](https://github.com/bircni/get-size2/commit/b1154e457291a7dedb16dc5587cae3efea537411)) - Nicolas
+
 ## [0.5.0](https://github.com/bircni/get-size2/compare/0.4.1..0.5.0) - 2025-06-25
 
 ### Bug Fixes
