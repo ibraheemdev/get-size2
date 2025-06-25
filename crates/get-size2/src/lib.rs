@@ -248,12 +248,10 @@ where
     fn get_heap_size(&self) -> usize {
         let mut total = 0;
         for (k, v) in self {
-            total += GetSize::get_size(k);
-            total += GetSize::get_size(v);
+            total += GetSize::get_heap_size(k);
+            total += GetSize::get_heap_size(v);
         }
-        let additional: usize = self.capacity() - self.len();
-        total += additional * K::get_stack_size();
-        total += additional * V::get_stack_size();
+        total += self.capacity() * <(K, V)>::get_stack_size();
         total
     }
 }
