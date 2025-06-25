@@ -321,7 +321,7 @@ fn once_lock_get_size() {
     assert_eq!(
         lock_filled.get_heap_size(),
         lock_filled.get().unwrap().capacity()
-      );
+    );
 }
 
 fn compact_str() {
