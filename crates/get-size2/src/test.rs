@@ -264,13 +264,13 @@ fn boxed_slice() {
 
 #[test]
 fn boxed_str() {
-    let boxed: Box<str> = "a".repeat(1).into();
+    let boxed: Box<str> = "a".to_owned().into();
     assert_eq!(boxed.get_heap_size(), size_of::<u8>() * boxed.len());
 
-    let rc: Rc<str> = "a".repeat(1).into();
+    let rc: Rc<str> = "a".to_owned().into();
     assert_eq!(rc.get_heap_size(), size_of::<u8>() * boxed.len());
 
-    let arc: Arc<str> = "a".repeat(1).into();
+    let arc: Arc<str> = "a".to_owned().into();
     assert_eq!(arc.get_heap_size(), size_of::<u8>() * boxed.len());
 }
 
