@@ -5,7 +5,7 @@ members = ["crates/get-size2", "crates/get-size-derive2"]
 [workspace.package]
 edition = "2024"
 license = "MIT OR Apache-2.0"
-version = "0.5.1"
+version = "0.5.2"
 authors = ["Denis Kerp", "Nicolas"]
 
 [workspace.dependencies]

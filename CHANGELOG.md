@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [0.5.2](https://github.com/bircni/get-size2/compare/0.5.1..0.5.2) - 2025-07-09
+
+### Features
+
+- Optionally implement GetSize for indexmap (#26) - ([d6e3310](https://github.com/bircni/get-size2/commit/d6e3310160a498461ff60b9581f2e4d951cd33bd)) - Brian Janssen
+
+### Lint
+
+- fix new lints in rust 1.88 - ([7292f5e](https://github.com/bircni/get-size2/commit/7292f5e1968209e2091213dc6ebf5b9e2e226058)) - Nicolas
+
 ## [0.5.1](https://github.com/bircni/get-size2/compare/0.5.0..0.5.1) - 2025-06-25
 
 ### Bug Fixes
