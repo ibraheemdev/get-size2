@@ -704,7 +704,7 @@ where
         // The capacity and length are stored on the heap.
         let mut total = std::mem::size_of::<usize>() * 2;
 
-        for v in self.iter() {
+        for v in self {
             // We assume that value are hold inside the heap.
             total += GetSize::get_size(v);
         }
