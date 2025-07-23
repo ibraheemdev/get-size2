@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [0.6.0](https://github.com/bircni/get-size2/compare/0.5.2..0.6.0) - 2025-07-23
+
+### Bug Fixes
+
+- update version for get-size-derive - ([db495ea](https://github.com/bircni/get-size2/commit/db495eab7c650ecb8b9c0827a78f05c2e02c9540)) - Nicolas
+- heap size calculation for spilled `SmallVec` (#28) - ([e6b5381](https://github.com/bircni/get-size2/commit/e6b5381e42407e4d7268f454cdee71036431e4be)) - Micha Reiser
+- heap size calculation for spilled `CompactStr` (#30) - ([c730c67](https://github.com/bircni/get-size2/commit/c730c67281371b73386737f78311c593a2752b90)) - Micha Reiser
+- simplify iteration over elements in heap size calculation - ([5e3feda](https://github.com/bircni/get-size2/commit/5e3fedaf5de351d50ce81d21e8c4fd7d63af5e3e)) - Nicolas
+
+### Features
+
+- Add `ThinVec` support (#29) - ([c46839c](https://github.com/bircni/get-size2/commit/c46839c990d4318712dacfb6e3d3863a230e2d23)) - Micha Reiser
+
 ## [0.5.2](https://github.com/bircni/get-size2/compare/0.5.1..0.5.2) - 2025-07-09
 
 ### Features
