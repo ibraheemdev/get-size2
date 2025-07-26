@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [0.6.1](https://github.com/bircni/get-size2/compare/0.6.0..0.6.1) - 2025-07-26
+
+### Bug Fixes
+
+- update Cow implementation to support unsized types and add tests for heap size calculation (#31) - ([45e957d](https://github.com/bircni/get-size2/commit/45e957d1ee337731840004d0cca4d67744e20cf1)) - Zhu He
+
+### Features
+
+- implement GetSize for Rc and Arc slices with corresponding tests (#32) - ([e32d05f](https://github.com/bircni/get-size2/commit/e32d05fe781a3b96973f0ef479b47d8b563be4fe)) - Zhu He
+
 ## [0.6.0](https://github.com/bircni/get-size2/compare/0.5.2..0.6.0) - 2025-07-23
 
 ### Bug Fixes
