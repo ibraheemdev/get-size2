@@ -381,7 +381,7 @@ where
 
 impl<T> GetSize for Rc<T>
 where
-    T: GetSize + 'static,
+    T: GetSize,
 {
     fn get_heap_size(&self) -> usize {
         let tracker = StandardTracker::default();
@@ -392,11 +392,7 @@ where
     }
 
     fn get_heap_size_with_tracker<TR: GetSizeTracker>(&self, mut tracker: TR) -> (usize, TR) {
-        let strong_ref = Self::clone(self);
-
-        let addr = Self::as_ptr(&strong_ref);
-
-        if tracker.track(addr, strong_ref) {
+        if tracker.track(Rc::as_ptr(self)) {
             GetSize::get_size_with_tracker(&**self, tracker)
         } else {
             (0, tracker)
@@ -408,7 +404,7 @@ impl<T> GetSize for RcWeak<T> {}
 
 impl<T> GetSize for Arc<T>
 where
-    T: GetSize + 'static,
+    T: GetSize,
 {
     fn get_heap_size(&self) -> usize {
         let tracker = StandardTracker::default();
@@ -419,11 +415,7 @@ where
     }
 
     fn get_heap_size_with_tracker<TR: GetSizeTracker>(&self, mut tracker: TR) -> (usize, TR) {
-        let strong_ref = Self::clone(self);
-
-        let addr = Self::as_ptr(&strong_ref);
-
-        if tracker.track(addr, strong_ref) {
+        if tracker.track(Arc::as_ptr(self)) {
             GetSize::get_size_with_tracker(&**self, tracker)
         } else {
             (0, tracker)
