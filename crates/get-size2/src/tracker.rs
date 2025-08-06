@@ -1,69 +1,63 @@
-use std::any::Any;
-use std::collections::BTreeMap;
+use std::collections::HashSet;
 use std::sync::{Arc, Mutex, RwLock};
 
 /// A tracker which makes sure that shared ownership objects are only accounted for once.
 pub trait GetSizeTracker {
-    /// Tracks a given strong shared ownership object `strong_ref` of type `A`, which points
-    /// to an arbitrary object located at `addr`.
+    /// Tracks an arbitrary object located at `addr`.
     ///
     /// Returns `true` if the reference, as indexed by the pointed to `addr`, has not yet
-    /// been seen by this tracker. Otherwise it returns false.
-    ///
-    /// If the `addr` has not yet been seen, the tracker __MUST__ store the `strong_ref`
-    /// object to ensure that the `addr` pointed to by it remains valid for the trackers
-    /// lifetime.
-    fn track<A: Any + 'static, B>(&mut self, addr: *const B, strong_ref: A) -> bool;
+    /// been seen by this tracker. Otherwise it returns `false`.
+    fn track<A>(&mut self, addr: *const A) -> bool;
 }
 
 impl<T: GetSizeTracker> GetSizeTracker for &mut T {
-    fn track<A: Any + 'static, B>(&mut self, addr: *const B, strong_ref: A) -> bool {
-        GetSizeTracker::track(*self, addr, strong_ref)
+    fn track<A>(&mut self, addr: *const A) -> bool {
+        GetSizeTracker::track(*self, addr)
     }
 }
 
 impl<T: GetSizeTracker> GetSizeTracker for Box<T> {
-    fn track<A: Any + 'static, B>(&mut self, addr: *const B, strong_ref: A) -> bool {
-        GetSizeTracker::track(&mut **self, addr, strong_ref)
+    fn track<A>(&mut self, addr: *const A) -> bool {
+        GetSizeTracker::track(&mut **self, addr)
     }
 }
 
 impl<T: GetSizeTracker> GetSizeTracker for Mutex<T> {
-    fn track<A: Any + 'static, B>(&mut self, addr: *const B, strong_ref: A) -> bool {
+    fn track<A>(&mut self, addr: *const A) -> bool {
         let tracker = self.get_mut().expect("Mutex was poisoned");
 
-        GetSizeTracker::track(&mut *tracker, addr, strong_ref)
+        GetSizeTracker::track(&mut *tracker, addr)
     }
 }
 
 impl<T: GetSizeTracker> GetSizeTracker for RwLock<T> {
-    fn track<A: Any + 'static, B>(&mut self, addr: *const B, strong_ref: A) -> bool {
+    fn track<A>(&mut self, addr: *const A) -> bool {
         let mut tracker = self.write().expect("RwLock was poisoned");
 
-        GetSizeTracker::track(&mut *tracker, addr, strong_ref)
+        GetSizeTracker::track(&mut *tracker, addr)
     }
 }
 
 impl<T: GetSizeTracker> GetSizeTracker for Arc<Mutex<T>> {
-    fn track<A: Any + 'static, B>(&mut self, addr: *const B, strong_ref: A) -> bool {
+    fn track<A>(&mut self, addr: *const A) -> bool {
         let mut tracker = self.lock().expect("Mutex was poisoned");
 
-        GetSizeTracker::track(&mut *tracker, addr, strong_ref)
+        GetSizeTracker::track(&mut *tracker, addr)
     }
 }
 
 impl<T: GetSizeTracker> GetSizeTracker for Arc<RwLock<T>> {
-    fn track<A: Any + 'static, B>(&mut self, addr: *const B, strong_ref: A) -> bool {
+    fn track<A>(&mut self, addr: *const A) -> bool {
         let mut tracker = self.write().expect("RwLock was poisoned");
 
-        GetSizeTracker::track(&mut *tracker, addr, strong_ref)
+        GetSizeTracker::track(&mut *tracker, addr)
     }
 }
 
 /// A simple standard tracker which can be used to track shared ownership references.
 #[derive(Debug, Default)]
 pub struct StandardTracker {
-    inner: BTreeMap<usize, Box<dyn Any + 'static>>,
+    inner: HashSet<usize>,
 }
 
 impl StandardTracker {
@@ -78,18 +72,8 @@ impl StandardTracker {
 }
 
 impl GetSizeTracker for StandardTracker {
-    fn track<A: Any + 'static, B>(&mut self, addr: *const B, strong_ref: A) -> bool {
-        let addr = addr as usize;
-
-        if let std::collections::btree_map::Entry::Vacant(e) = self.inner.entry(addr) {
-            let strong_ref: Box<dyn Any + 'static> = Box::new(strong_ref);
-
-            e.insert(strong_ref);
-
-            true
-        } else {
-            false
-        }
+    fn track<A>(&mut self, addr: *const A) -> bool {
+        self.inner.insert(addr.addr())
     }
 }
 
@@ -119,7 +103,7 @@ impl NoTracker {
 }
 
 impl GetSizeTracker for NoTracker {
-    fn track<A: Any + 'static, B>(&mut self, _addr: *const B, _strong_ref: A) -> bool {
+    fn track<A>(&mut self, _addr: *const A) -> bool {
         self.answer
     }
 }
