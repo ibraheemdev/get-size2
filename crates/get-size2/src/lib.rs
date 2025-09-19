@@ -258,8 +258,8 @@ where
         let (size, tracker) = self
             .iter()
             .fold((0, tracker), |(size, tracker), (key, value)| {
-                let (key_size, tracker) = K::get_size_with_tracker(key, tracker);
-                let (value_size, tracker) = V::get_size_with_tracker(value, tracker);
+                let (key_size, tracker) = K::get_heap_size_with_tracker(key, tracker);
+                let (value_size, tracker) = V::get_heap_size_with_tracker(value, tracker);
                 (size + key_size + value_size, tracker)
             });
 
@@ -664,8 +664,8 @@ where
         let (size, tracker) = self
             .iter()
             .fold((0, tracker), |(size, tracker), (key, value)| {
-                let (key_size, tracker) = K::get_size_with_tracker(key, tracker);
-                let (value_size, tracker) = V::get_size_with_tracker(value, tracker);
+                let (key_size, tracker) = K::get_heap_size_with_tracker(key, tracker);
+                let (value_size, tracker) = V::get_heap_size_with_tracker(value, tracker);
                 (size + key_size + value_size, tracker)
             });
 
@@ -769,8 +769,8 @@ where
         let (size, tracker) = self
             .iter()
             .fold((0, tracker), |(size, tracker), (key, value)| {
-                let (key_size, tracker) = K::get_size_with_tracker(key, tracker);
-                let (value_size, tracker) = V::get_size_with_tracker(value, tracker);
+                let (key_size, tracker) = K::get_heap_size_with_tracker(key, tracker);
+                let (value_size, tracker) = V::get_heap_size_with_tracker(value, tracker);
                 (size + key_size + value_size, tracker)
             });
 

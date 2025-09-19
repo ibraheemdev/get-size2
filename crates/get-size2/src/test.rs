@@ -251,7 +251,10 @@ fn derive_newtype() {
 
 #[test]
 fn tracker() {
-    let shared = Rc::new(5);
+    #[derive(GetSize, Clone)]
+    struct RcWrapper(Rc<i32>);
+
+    let shared = RcWrapper(Rc::new(5));
 
     let (size, _) =
         (shared.clone(), shared.clone()).get_heap_size_with_tracker(StandardTracker::new());
