@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [0.6.3](https://github.com/bircni/get-size2/compare/0.6.2..0.6.3) - 2025-09-19
+
+### Features
+
+- update `hashbrown` to 0.16.0 (#35) - ([551a0bb](https://github.com/bircni/get-size2/commit/551a0bb2858fd984b2414a05bb743cb5934ced88)) - Ibraheem Ahmed
+
 ## [0.6.2](https://github.com/bircni/get-size2/compare/0.6.1..0.6.2) - 2025-08-06
 
 ### Bug Fixes
