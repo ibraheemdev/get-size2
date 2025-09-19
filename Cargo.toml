@@ -9,7 +9,7 @@ version = "0.6.3"
 authors = ["Denis Kerp", "Nicolas"]
 
 [workspace.dependencies]
-get-size-derive2 = { version = "0.6.2", path = "crates/get-size-derive2" }
+get-size-derive2 = { version = "0.6.3", path = "crates/get-size-derive2" }
 syn = "2"
 quote = "1"
 attribute-derive = "0.10.3"
